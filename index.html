@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rafik Samir Manaa — Portfolio</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e2c97e;
+    --gold-dim: #7a6030;
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #161616;
+    --border: #1e1e1e;
+    --text: #e8dcc8;
+    --muted: #555;
+    --subtle: #333;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+  .nav-name { font-size: 14px; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a { font-size: 12px; color: var(--muted); text-decoration: none; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* SECTIONS */
+  section { max-width: 900px; margin: 0 auto; padding: 4rem 2rem; }
+
+  /* HERO */
+  .hero { display: flex; align-items: center; gap: 3rem; min-height: 85vh; }
+  .hero-photo-wrap { flex-shrink: 0; }
+  .hero-photo { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; object-position: center top; border: 2px solid var(--gold); display: block; }
+  .hero-tag { display: inline-block; font-size: 11px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem; }
+  .hero-name { font-size: 42px; font-weight: 400; color: #f0ead6; line-height: 1.1; margin-bottom: 0.75rem; }
+  .hero-name span { color: var(--gold); }
+  .hero-subtitle { font-size: 15px; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.7; max-width: 440px; }
+  .hero-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; }
+  .badge { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 20px; padding: 5px 14px; font-size: 11px; color: var(--muted); }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-gold { background: var(--gold); color: #0a0a0a; padding: 10px 22px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; letter-spacing: 0.5px; transition: background 0.2s; cursor: pointer; border: none; }
+  .btn-gold:hover { background: var(--gold-light); }
+  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 10px 22px; border-radius: 6px; font-size: 12px; text-decoration: none; letter-spacing: 0.5px; transition: all 0.2s; cursor: pointer; }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* STATS */
+  .stats-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+  .stat-item { padding: 2.5rem 2rem; text-align: center; border-right: 1px solid var(--border); }
+  .stat-item:last-child { border-right: none; }
+  .stat-num { font-size: 36px; font-weight: 300; color: var(--gold); display: block; margin-bottom: 4px; }
+  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* SECTION HEADER */
+  .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem; }
+  .section-header h2 { font-size: 11px; color: var(--gold); letter-spacing: 2.5px; text-transform: uppercase; font-weight: 400; white-space: nowrap; }
+  .section-header::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* TIMELINE */
+  .timeline { position: relative; }
+  .tl-item { display: flex; gap: 1.5rem; cursor: pointer; }
+  .tl-spine { display: flex; flex-direction: column; align-items: center; padding-top: 4px; }
+  .tl-dot { width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--subtle); background: var(--bg); flex-shrink: 0; transition: all 0.3s; }
+  .tl-dot.active { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 12px rgba(201,168,76,0.3); }
+  .tl-line { width: 1px; flex: 1; background: var(--border); margin: 6px 0; min-height: 20px; }
+  .tl-body { padding-bottom: 2rem; flex: 1; }
+  .tl-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 3px; }
+  .tl-company { font-size: 15px; font-weight: 500; color: #f0ead6; }
+  .tl-date { font-size: 11px; color: var(--muted); }
+  .tl-role { font-size: 13px; color: var(--gold); margin-bottom: 3px; }
+  .tl-location { font-size: 11px; color: var(--muted); margin-bottom: 0; }
+  .tl-expand { overflow: hidden; max-height: 0; opacity: 0; transition: max-height 0.4s ease, opacity 0.3s; }
+  .tl-expand.open { max-height: 400px; opacity: 1; }
+  .tl-desc { font-size: 13px; color: #777; line-height: 1.7; margin-top: 10px; }
+  .tl-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .tl-tag { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 4px; padding: 2px 8px; font-size: 10px; color: var(--muted); }
+  .tl-hint { font-size: 10px; color: var(--subtle); margin-top: 6px; }
+
+  /* PRESS */
+  .press-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .press-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-decoration: none; display: block; transition: border-color 0.2s, transform 0.2s; cursor: pointer; }
+  .press-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .press-outlet { font-size: 16px; font-weight: 500; color: #f0ead6; margin-bottom: 4px; }
+  .press-type { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .press-link { font-size: 12px; color: var(--gold); }
+
+  /* INFLUENCERS */
+  .influ-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .influ-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+  .influ-handle { font-size: 12px; color: var(--gold); margin-bottom: 6px; }
+  .influ-reach { font-size: 28px; font-weight: 300; color: #f0ead6; line-height: 1; }
+  .influ-label { font-size: 10px; color: var(--muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 1px; }
+  .influ-platform { font-size: 10px; color: var(--subtle); margin-top: 6px; }
+  .influ-total { background: var(--bg3); border: 1px solid var(--gold-dim); border-radius: 12px; padding: 1.25rem; text-align: center; }
+  .influ-total-num { font-size: 32px; font-weight: 300; color: var(--gold); }
+  .influ-total-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+  /* LANGUAGES */
+  .lang-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .lang-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; }
+  .lang-name { font-size: 14px; color: #f0ead6; }
+  .lang-level { font-size: 11px; color: var(--gold); }
+  .lang-dots { display: flex; gap: 4px; margin-top: 6px; }
+  .lang-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
+  .lang-dot.on { background: var(--gold); }
+
+  /* SKILLS */
+  .skills-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 6px; padding: 6px 14px; font-size: 12px; color: var(--muted); transition: border-color 0.2s, color 0.2s; }
+  .skill:hover { border-color: var(--gold); color: var(--gold-light); }
+
+  /* CONTACT */
+  .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .contact-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; text-align: center; cursor: pointer; transition: border-color 0.2s; text-decoration: none; display: block; }
+  .contact-card:hover { border-color: var(--gold); }
+  .contact-icon { font-size: 20px; margin-bottom: 8px; }
+  .contact-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .contact-value { font-size: 12px; color: #f0ead6; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); text-align: center; padding: 2rem; font-size: 11px; color: var(--subtle); }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+  /* ANIMATIONS */
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 600px) {
+    .hero { flex-direction: column; text-align: center; min-height: auto; padding-top: 3rem; }
+    .hero-subtitle { max-width: 100%; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-item:nth-child(2) { border-right: none; }
+    .press-grid, .influ-grid, .lang-grid, .contact-grid { grid-template-columns: 1fr; }
+    .hero-name { font-size: 30px; }
+    nav { padding: 1rem; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-name">Rafik Manaa</span>
+  <div class="nav-links">
+    <a href="#experience">Experience</a>
+    <a href="#press">Press</a>
+    <a href="#influence">Influence</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-photo-wrap">
+    <img class="hero-photo" src="WhatsApp_Image_2026-05-11_at_08_47_37.jpeg" alt="Rafik Manaa" />
+  </div>
+  <div>
+    <span class="hero-tag">International Profile · Open to Opportunities</span>
+    <h1 class="hero-name">Rafik<br/><span>Samir Manaa</span></h1>
+    <p class="hero-subtitle">Business Development · Marketing & Partnerships · Account Management — 11 years across Europe, the GCC & APAC. Fluent in 5 languages. Built brands, launched products, and opened markets from scratch.</p>
+    <div class="hero-badges">
+      <span class="badge">🇵🇹 Lisbon, Portugal</span>
+      <span class="badge">✈️ Open to Relocation</span>
+      <span class="badge">💻 Open to Remote</span>
+    </div>
+    <div class="hero-cta">
+      <a class="btn-gold" href="mailto:rafikmanaa@hotmail.fr">Get in touch</a>
+      <a class="btn-outline" href="https://fr.linkedin.com/in/rafikmanaa" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div style="max-width:900px; margin:0 auto;">
+    <div class="stats-grid">
+      <div class="stat-item"><span class="stat-num" data-target="11" data-suffix="+">0</span><span class="stat-label">Years of Experience</span></div>
+      <div class="stat-item"><span class="stat-num" data-target="7" data-suffix=".5M+">0</span><span class="stat-label">Influencer Reach Managed</span></div>
+      <div class="stat-item"><span class="stat-num" data-target="9" data-suffix="">0</span><span class="stat-label">People Recruited & Led</span></div>
+      <div class="stat-item"><span class="stat-num" data-target="5" data-suffix="">0</span><span class="stat-label">Languages Spoken</span></div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider"/>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header"><h2>Experience</h2></div>
+  <div class="timeline">
+
+    <div class="tl-item fade-in" onclick="toggleExp(this)">
+      <div class="tl-spine"><div class="tl-dot active"></div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-meta"><span class="tl-company">Farfetch</span><span class="tl-date">Sep 2025 – Present</span></div>
+        <p class="tl-role">Luxury Client Experience Specialist</p>
+        <p class="tl-location">📍 Lisbon, Portugal</p>
+        <p class="tl-hint">Click to expand</p>
+        <div class="tl-expand">
+          <p class="tl-desc">Managing complex, high-value client cases end-to-end for a globally recognised luxury e-commerce platform. Delivering premium multichannel support aligned with luxury brand standards, driving retention through empathy-led, solution-focused engagement.</p>
+          <div class="tl-tags"><span class="tl-tag">Luxury</span><span class="tl-tag">Client Relations</span><span class="tl-tag">Retention</span><span class="tl-tag">Premium Service</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item fade-in" onclick="toggleExp(this)">
+      <div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-meta"><span class="tl-company">Guide In City (GIC)</span><span class="tl-date">Nov 2023 – Oct 2024</span></div>
+        <p class="tl-role">Head of Marketing & Operations</p>
+        <p class="tl-location">📍 Dubai, UAE</p>
+        <p class="tl-hint">Click to expand</p>
+        <div class="tl-expand">
+          <p class="tl-desc">Launched a B2C tourism app from zero to 3,000 downloads on launch night. Built and led a 9-person cross-functional team (Sales, Design, IT, Admin) — handling full-cycle recruitment. Negotiated editorial and sponsored content with Time Out Dubai, Khaleej Times & Lovin Dubai. Managed macro-influencers with 7.5M+ combined reach. Produced a 150-guest premium launch event at zero cash cost through barter sponsorship contracts negotiated from scratch (luxury car showroom, catering, AV equipment, branded goodies).</p>
+          <div class="tl-tags"><span class="tl-tag">App Launch</span><span class="tl-tag">Influencer Marketing</span><span class="tl-tag">PR & Media</span><span class="tl-tag">Team Leadership</span><span class="tl-tag">Barter Sponsorship</span><span class="tl-tag">Event Production</span><span class="tl-tag">Dubai</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item fade-in" onclick="toggleExp(this)">
+      <div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-meta"><span class="tl-company">ON11ZE Agency</span><span class="tl-date">Feb 2023 – Feb 2024</span></div>
+        <p class="tl-role">Business Development & Marketing Partner</p>
+        <p class="tl-location">📍 Europe (Remote)</p>
+        <p class="tl-hint">Click to expand</p>
+        <div class="tl-expand">
+          <p class="tl-desc">Co-led commercial strategy for a creative marketing agency. Spearheaded expansion into French, Arab and Brazilian markets through targeted media partnerships and outreach. Acted as strategic client liaison between brands and creative teams, ensuring brief alignment and campaign delivery.</p>
+          <div class="tl-tags"><span class="tl-tag">Business Development</span><span class="tl-tag">Content Strategy</span><span class="tl-tag">Multi-market Expansion</span><span class="tl-tag">Client Relations</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item fade-in" onclick="toggleExp(this)">
+      <div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-meta"><span class="tl-company">Kharoub Dev</span><span class="tl-date">Sep 2021 – Aug 2023</span></div>
+        <p class="tl-role">Marketing & Business Development Consultant</p>
+        <p class="tl-location">📍 Portugal</p>
+        <p class="tl-hint">Click to expand</p>
+        <div class="tl-expand">
+          <p class="tl-desc">Independent marketing consultancy for SMEs and startups — covering brand positioning, SEO/SEA strategy, content creation, brand storytelling and event production.</p>
+          <div class="tl-tags"><span class="tl-tag">Consulting</span><span class="tl-tag">SEO / SEA</span><span class="tl-tag">Brand Strategy</span><span class="tl-tag">Events</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item fade-in" onclick="toggleExp(this)">
+      <div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-meta"><span class="tl-company">Uber for Business</span><span class="tl-date">May 2019 – Jan 2020</span></div>
+        <p class="tl-role">Corporate Account Manager</p>
+        <p class="tl-location">📍 Lisbon, Portugal</p>
+        <p class="tl-hint">Click to expand</p>
+        <div class="tl-expand">
+          <p class="tl-desc">Managed a portfolio of ~200 corporate accounts including Balmain and Google on the Uber for Business SaaS platform. Owned full B2B sales cycle from decision-maker prospecting to contract closure. Generated 3+ qualified meetings per week. Maintained relationship continuity by attending senior presentations alongside Account Managers.</p>
+          <div class="tl-tags"><span class="tl-tag">B2B SaaS</span><span class="tl-tag">Account Management</span><span class="tl-tag">Corporate Sales</span><span class="tl-tag">Pipeline</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item fade-in" onclick="toggleExp(this)">
+      <div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-meta"><span class="tl-company">Google via Accenture</span><span class="tl-date">Jun 2018 – Jan 2019</span></div>
+        <p class="tl-role">Google Ads Specialist</p>
+        <p class="tl-location">📍 Lisbon, Portugal</p>
+        <p class="tl-hint">Click to expand</p>
+        <div class="tl-expand">
+          <p class="tl-desc">Advised SME clients on Google Ads campaign optimisation via phone, email and chat. Recognised as go-to specialist — clients consistently requested direct engagement. Trained clients on best practices to maximise ROI and campaign efficiency.</p>
+          <div class="tl-tags"><span class="tl-tag">Google Ads</span><span class="tl-tag">Digital Marketing</span><span class="tl-tag">SEA</span><span class="tl-tag">Client Training</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item fade-in" onclick="toggleExp(this)">
+      <div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-meta"><span class="tl-company">StrongLed · EACC · Swisstank</span><span class="tl-date">2015 – 2017</span></div>
+        <p class="tl-role">Sales, Marketing & Business Development — China & MEA</p>
+        <p class="tl-location">📍 China</p>
+        <p class="tl-hint">Click to expand</p>
+        <div class="tl-expand">
+          <p class="tl-desc">Built regional client portfolios across MEA, India and ANZ. Facilitated B2B matchmaking and trade negotiations between European and Chinese companies through the European American Chamber of Commerce. Managed multi-channel marketing plans for international client expansion at Swisstank.</p>
+          <div class="tl-tags"><span class="tl-tag">MEA Markets</span><span class="tl-tag">B2B</span><span class="tl-tag">Trade Events</span><span class="tl-tag">China</span><span class="tl-tag">International</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item fade-in" onclick="toggleExp(this)">
+      <div class="tl-spine"><div class="tl-dot"></div></div>
+      <div class="tl-body">
+        <div class="tl-meta"><span class="tl-company">Mercure Les Deux Alpes</span><span class="tl-date">Oct 2012 – Jul 2014</span></div>
+        <p class="tl-role">Sales & Business Development Assistant</p>
+        <p class="tl-location">📍 France</p>
+        <p class="tl-hint">Click to expand</p>
+        <div class="tl-expand">
+          <p class="tl-desc">Developed corporate client and tour operator relationships. Contributed to promotional campaigns and hospitality event coordination.</p>
+          <div class="tl-tags"><span class="tl-tag">Hospitality</span><span class="tl-tag">B2B Sales</span><span class="tl-tag">Events</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- PRESS -->
+<section id="press">
+  <div class="section-header"><h2>Press & Media Coverage</h2></div>
+  <p style="font-size:13px; color:var(--muted); margin-bottom:1.5rem;">Selected media placements negotiated, briefed and supervised — Guide In City launch campaign, Dubai 2024.</p>
+  <div class="press-grid">
+    <a class="press-card fade-in" href="https://www.timeoutdubai.com/things-to-do/things-to-do-news/new-app-guide-in-city-dubais-best-services-in-three-clicks" target="_blank">
+      <p class="press-outlet">Time Out Dubai</p>
+      <p class="press-type">Editorial Feature & App Review</p>
+      <p class="press-link">Read article →</p>
+    </a>
+    <a class="press-card fade-in" href="https://www.khaleejtimes.com/lifestyle/shopping/unlocking-the-magic-of-dubai-elevate-your-experience-with-guide-in-city" target="_blank">
+      <p class="press-outlet">Khaleej Times</p>
+      <p class="press-type">Lifestyle Article & Brand Placement</p>
+      <p class="press-link">Read article →</p>
+    </a>
+    <a class="press-card fade-in" href="https://lovin.co/dubai/en/sponsored/guide-in-city/" target="_blank">
+      <p class="press-outlet">Lovin Dubai</p>
+      <p class="press-type">Sponsored Content, Stories & Video</p>
+      <p class="press-link">Read article →</p>
+    </a>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- INFLUENCERS -->
+<section id="influence">
+  <div class="section-header"><h2>Influencer Campaigns</h2></div>
+  <p style="font-size:13px; color:var(--muted); margin-bottom:1.5rem;">Macro-influencers contracted, briefed, scripted and managed for the Guide In City app launch — Dubai 2024.</p>
+  <div class="influ-grid" style="margin-bottom:12px;">
+    <div class="influ-card fade-in">
+      <p class="influ-handle">@shihabkoo</p>
+      <p class="influ-reach">4.5M</p>
+      <p class="influ-label">followers</p>
+      <p class="influ-platform">Instagram · YouTube</p>
+    </div>
+    <div class="influ-card fade-in">
+      <p class="influ-handle">@rahafelshamiofficial</p>
+      <p class="influ-reach">2M</p>
+      <p class="influ-label">followers</p>
+      <p class="influ-platform">Instagram</p>
+    </div>
+    <div class="influ-card fade-in">
+      <p class="influ-handle">@iamjordanhisham</p>
+      <p class="influ-reach">1.6M</p>
+      <p class="influ-label">followers</p>
+      <p class="influ-platform">TikTok · Instagram</p>
+    </div>
+  </div>
+  <div class="influ-total fade-in">
+    <p class="influ-total-num">7.5M+ combined reach</p>
+    <p class="influ-total-label">managed end-to-end — scripting · contracting · content supervision · CTA delivery</p>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- LANGUAGES -->
+<section>
+  <div class="section-header"><h2>Languages</h2></div>
+  <div class="lang-grid">
+    <div class="lang-card fade-in"><span class="lang-name">French</span><span class="lang-level">Native</span></div>
+    <div class="lang-card fade-in"><span class="lang-name">Arabic</span><span class="lang-level">Native</span></div>
+    <div class="lang-card fade-in"><span class="lang-name">English</span><span class="lang-level">Fluent — C2</span></div>
+    <div class="lang-card fade-in"><span class="lang-name">Portuguese</span><span class="lang-level">Fluent — C2</span></div>
+    <div class="lang-card fade-in"><span class="lang-name">Spanish</span><span class="lang-level">Advanced — C1</span></div>
+    <div class="lang-card fade-in"><span class="lang-name">Mandarin</span><span class="lang-level">Basic — A2</span></div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- SKILLS -->
+<section>
+  <div class="section-header"><h2>Core Skills</h2></div>
+  <div class="skills-wrap">
+    <span class="skill">Go-to-Market Strategy</span>
+    <span class="skill">B2B Pipeline Development</span>
+    <span class="skill">Influencer Marketing</span>
+    <span class="skill">PR & Media Relations</span>
+    <span class="skill">Strategic Account Management</span>
+    <span class="skill">Partnership Negotiation</span>
+    <span class="skill">Event Production</span>
+    <span class="skill">Barter Sponsorship</span>
+    <span class="skill">Content Strategy</span>
+    <span class="skill">Brand Positioning</span>
+    <span class="skill">SEO / SEA</span>
+    <span class="skill">CRM Management</span>
+    <span class="skill">Team Leadership & Recruitment</span>
+    <span class="skill">Cross-cultural Communication</span>
+    <span class="skill">360° Campaign Management</span>
+    <span class="skill">SaaS Commercialisation</span>
+    <span class="skill">Multi-market Expansion</span>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header"><h2>Contact</h2></div>
+  <div class="contact-grid">
+    <a class="contact-card fade-in" href="mailto:rafikmanaa@hotmail.fr">
+      <div class="contact-icon">✉️</div>
+      <p class="contact-label">Email</p>
+      <p class="contact-value">rafikmanaa@hotmail.fr</p>
+    </a>
+    <a class="contact-card fade-in" href="tel:+351929325373">
+      <div class="contact-icon">📞</div>
+      <p class="contact-label">Phone</p>
+      <p class="contact-value">+351 929 325 373</p>
+    </a>
+    <a class="contact-card fade-in" href="https://fr.linkedin.com/in/rafikmanaa" target="_blank">
+      <div class="contact-icon">🔗</div>
+      <p class="contact-label">LinkedIn</p>
+      <p class="contact-value">linkedin.com/in/rafikmanaa</p>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p style="color:var(--gold-dim); margin-bottom:4px;">Rafik Samir Manaa</p>
+  <p>International Business Development & Marketing · Lisbon, Portugal</p>
+</footer>
+
+<script>
+// Counter animation
+function animateCounters() {
+  document.querySelectorAll('.stat-num[data-target]').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    let current = 0;
+    const duration = 1200;
+    const step = target / (duration / 16);
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = Math.floor(current) + suffix;
+      if (current >= target) clearInterval(timer);
+    }, 16);
+  });
+}
+
+// Intersection observer for fade-in
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Stats counter trigger
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { animateCounters(); statsObserver.disconnect(); } });
+}, { threshold: 0.5 });
+const statsEl = document.querySelector('.stats-section');
+if (statsEl) statsObserver.observe(statsEl);
+
+// Timeline toggle
+function toggleExp(item) {
+  const expand = item.querySelector('.tl-expand');
+  const dot = item.querySelector('.tl-dot');
+  const hint = item.querySelector('.tl-hint');
+  const isOpen = expand.classList.contains('open');
+  expand.classList.toggle('open', !isOpen);
+  dot.classList.toggle('active', !isOpen);
+  if (hint) hint.style.display = isOpen ? '' : 'none';
+}
+</script>
+</body>
+</html>
